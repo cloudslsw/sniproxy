@@ -28,8 +28,13 @@ fi
 # prompt before removing stub resolver
 echo "This script will remove the stub resolver from /etc/resolv.conf"
 echo "and replace it with 9.9.9.9"
-echo "Press Ctrl-C to abort or Enter to continue"
-read
+echo "Press Ctrl-C to abort or Enter to replace the DNS server with 9.9.9.9, otherwise enter your preffered DNS server and press Enter"
+read dnsServer
+
+# if dnsServer is empty, replace it with 9.9.9.9
+if [ -z "$dnsServer" ]; then
+    dnsServer="9.9.9.9"
+fi
 
 # check to see if sed is installed
 if ! command -v sed &> /dev/null; then
@@ -38,7 +43,7 @@ if ! command -v sed &> /dev/null; then
 fi
 
 # remove stub resolver
-sed -i 's/#DNS=/DNS=9.9.9.9/; s/#DNSStubListener=yes/DNSStubListener=no/' /etc/systemd/resolved.conf
+sed -i 's/#DNS=/DNS='$dnsServer'/; s/#DNSStubListener=yes/DNSStubListener=no/' /etc/systemd/resolved.conf
 systemctl restart systemd-resolved
 
 # check if stub resolver is removed by checking netstat for port 53 udp. try both ss and netstat
@@ -92,7 +97,7 @@ echo "Do you want to enable DNS over TCP? (y/n)"
 read dnsOverTCP
 # if yes, add --bindDnsOverTcp argument to sniproxy execute command
 if [ "$dnsOverTCP" = "y" ]; then
-    $yqPath -i '.general.bind_dns_over_tcp = true' $configPath
+    $yqPath -i '.general.bind_dns_over_tcp = "0.0.0.0:53"' $configPath
 fi
 
 # ask if DNS over TLS should be enabled
@@ -100,7 +105,7 @@ echo "Do you want to enable DNS over TLS? (y/n)"
 read dnsOverTLS
 # if yes, add --bindDnsOverTls argument to sniproxy execute command
 if [ "$dnsOverTLS" = "y" ]; then
-    $yqPath -i '.general.bind_dns_over_tls = true' $configPath
+    $yqPath -i '.general.bind_dns_over_tls = "0.0.0.0:853"' $configPath
 fi
 
 # ask for DNS over QUIC
@@ -108,7 +113,7 @@ echo "Do you want to enable DNS over QUIC? (y/n)"
 read dnsOverQUIC
 # if yes, add --bindDnsOverQuic argument to sniproxy execute command
 if [ "$dnsOverQUIC" = "y" ]; then
-    $yqPath -i '.general.bind_dns_over_quic = true' $configPath
+    $yqPath -i '.general.bind_dns_over_quic = "0.0.0.0:8853"' $configPath
 fi
 
 # if any of DNS over TLS or DNS over QUIC is enabled, ask for the certificate path and key path
@@ -122,7 +127,7 @@ if [ "$dnsOverTLS" = "y" ] || [ "$dnsOverQUIC" = "y" ]; then
     if [ -z "$certPath" ] || [ -z "$keyPath" ]; then
         echo "WARNING: Using self-signed certificates"
     else
-        $yqPath -i '.general.tls_cert = '"$certPath"', .general.tls_key = '"$keyPath" $configPath
+        $yqPath -i '.general.tls_cert = "$certPath", .general.tls_key = "$keyPath"' $configPath
     fi
 fi
 
