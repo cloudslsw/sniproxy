@@ -7,6 +7,9 @@ jup-ps5-loginservice.prod.demonware.net.,suffix
 jup-xbsx-loginservice.prod.demonware.net.,suffix
 jup-xb1-loginservice.prod.demonware.net.,suffix
 weezyblue-beta-lobby.prod.demonware.net.,suffix
+weezyblue-lobby.prod.demonware.net.,suffix
+sapphire-beta-lobby.prod.demonware.net.,suffix
+sapphire-lobby.prod.demonware.net.,suffix
 api-prod.capcomfighters.net.,suffix
 prod-data-energon.infra-ext.activision.com.,suffix
 xenia-netplay-2a0298c0e3f4.herokuapp.com.,suffix
