@@ -6,10 +6,10 @@ jup-ps4-loginservice.prod.demonware.net.,suffix
 jup-ps5-loginservice.prod.demonware.net.,suffix
 jup-xbsx-loginservice.prod.demonware.net.,suffix
 jup-xb1-loginservice.prod.demonware.net.,suffix
-cer-xb1-loginservice.prod.demonware.net
-cer-xbsx-loginservice.prod.demonware.net
-cer-ps4-loginservice.prod.demonware.net
-cer-ps5-loginservice.prod.demonware.net
+cer-xb1-loginservice.prod.demonware.net.,suffix
+cer-xbsx-loginservice.prod.demonware.net.,suffix
+cer-ps4-loginservice.prod.demonware.net.,suffix
+cer-ps5-loginservice.prod.demonware.net.,suffix
 weezyblue-beta-lobby.prod.demonware.net.,suffix
 weezyblue-lobby.prod.demonware.net.,suffix
 sapphire-beta-lobby.prod.demonware.net.,suffix
